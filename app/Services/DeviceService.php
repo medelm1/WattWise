@@ -14,12 +14,42 @@ class DeviceService {
         $this->validateData = $validateData;
     }
 
-    public function create(DeviceDTO $deviceDTO) : Device {
+    public function createDevice(DeviceDTO $deviceDTO): Device {
         $validatedData = $this->validateData->exceute($deviceDTO);
+        return Device::create($validatedData->safe()->all());
+    }
 
-        $device = Device::create($deviceDTO->toArray());
+    public function getAllDevices(): \Illuminate\Database\Eloquent\Collection
+    {
+        return Device::all();
+    }
 
+    public function getDeviceById($id): ?Device
+    {
+        return Device::find($id);
+    }
+
+    public function updateDevice($id, DeviceDTO $deviceDTO): ?Device
+    {
+        $device = Device::find($id);
+        if (!$device) {
+            return null;
+        }
+        
+        $validatedData = $this->validateData->exceute($deviceDTO);
+        $device->update($validatedData->safe()->all());
+        
         return $device;
     }
 
+    public function deleteDevice($id): bool
+    {
+        $device = Device::find($id);
+        if (!$device) {
+            return false;
+        }
+
+        $device->delete();
+        return true; 
+    }
 }
