@@ -1,11 +1,50 @@
-<template>
-    <router-view />
-</template>
-
 <script setup>
+import { ref } from 'vue';
+import { useTabStore } from '@/stores/tabStore';
+import Estimator from '@/views/Estimator.vue';
+import Devices from '@/views/Devices.vue';
+import Settings from '@/views/Settings.vue';
+
+const tabStore = useTabStore();
+
+const text = ref('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.');
 
 </script>
 
-<style>
+<template>
+  <v-card class="mx-auto my-4 w-50">
+    <v-tabs
+      v-model="tabStore.activeTab"
+      align-tabs="center"
+      bg-color="orange"
+      stacked
+    >
+      <v-tab value="estimator-tab">
+        <v-icon icon="mdi-lightning-bolt"></v-icon>
+        Estimator
+      </v-tab>
 
-</style>
+      <v-tab value="devices-tab">
+        <v-icon icon="mdi-devices"></v-icon>
+        Devices
+      </v-tab>
+
+      <v-tab value="settings-tab">
+        <v-icon icon="mdi-cog"></v-icon>
+        Settings
+      </v-tab>
+    </v-tabs>
+
+    <v-tabs-window v-model="tabStore.activeTab">
+      <v-tabs-window-item value="estimator-tab">
+        <Estimator />
+      </v-tabs-window-item>
+      <v-tabs-window-item value="devices-tab">
+        <Devices />
+      </v-tabs-window-item>
+      <v-tabs-window-item value="settings-tab">
+        <Settings />
+      </v-tabs-window-item>
+    </v-tabs-window>
+  </v-card>
+</template>

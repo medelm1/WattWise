@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\DTOs\DeviceDTO;
 use App\Http\Responses\DeviceJsonResponse;
-use App\Models\Device;
 use App\Services\DeviceService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;

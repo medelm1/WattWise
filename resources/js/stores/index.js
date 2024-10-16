@@ -1,5 +1,5 @@
-import { useCommonStore } from './common';
+import { useTabStore } from './tabStore';
 
 export {
-    useCommonStore,
+    useTabStore,
 };

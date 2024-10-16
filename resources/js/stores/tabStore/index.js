@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia';
 import actions from './actions';
 
-export const useCommonStore = defineStore('COMMON_STORE', {
+export const useTabStore = defineStore('tabStore', {
     state: () => ({
-        
+        activeTab: null,
     }),
     actions,
 });
