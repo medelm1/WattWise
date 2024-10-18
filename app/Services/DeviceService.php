@@ -15,7 +15,7 @@ class DeviceService {
     }
 
     public function createDevice(DeviceDTO $deviceDTO): Device {
-        $validatedData = $this->validateData->exceute($deviceDTO);
+        $validatedData = $this->validateData->execute($deviceDTO);
         return Device::create($validatedData->safe()->all());
     }
 

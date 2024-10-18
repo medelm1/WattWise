@@ -19,7 +19,7 @@ class DeviceJsonResponse extends JsonResponse
                 throw new InvalidArgumentException('The collection must contain on Device instances');
             }
 
-            $data = $payload->map(fn(Device $device) => $this->toArray($device))->all();
+            $data['devices'] = $payload->map(fn(Device $device) => $this->toArray($device))->all();
 
         } else {
             $data = $this->toArray($payload);

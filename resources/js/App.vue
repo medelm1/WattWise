@@ -12,7 +12,7 @@ const text = ref('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed d
 </script>
 
 <template>
-  <v-card class="mx-auto my-4 w-50">
+  <v-card class="ma-4">
     <v-tabs
       v-model="tabStore.activeTab"
       align-tabs="center"
