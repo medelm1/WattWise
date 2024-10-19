@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('devices', function (Blueprint $table) {
+        Schema::create('appliances', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('power_rating'); // in watts
-            $table->integer('usage_hours'); // per day
+            $table->integer('power_rating');
+            $table->integer('usage_hours');
+            $table->integer('units')->default(1);
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('devices');
+        Schema::dropIfExists('appliances');
     }
 };

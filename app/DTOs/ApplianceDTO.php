@@ -2,11 +2,12 @@
 
 namespace App\DTOs;
 
-class DeviceDTO implements DTO 
+class ApplianceDTO implements DTO
 {
     private $name;
     private $powerRating;
     private $usageHours;
+    private $units;
     private $createdAt;
     private $updatedAt;
 
@@ -15,34 +16,38 @@ class DeviceDTO implements DTO
         $this->name = $data['name'] ?? '';
         $this->powerRating = (int) ($data['powerRating'] ?? 0);
         $this->usageHours = (int) ($data['usageHours'] ?? 0);
+        $this->units = (int) ($data['units'] ?? 1);
         $this->createdAt = $data['createdAt'] ?? '';
         $this->updatedAt = $data['createdAt'] ?? '';
     }
 
-    public function rules(): array 
+    public function rules(): array
     {
         return [
             'name' => 'required|string|max:255',
             'powerRating' => 'required|numeric',
             'usageHours' => 'required|numeric',
+            'units' => 'sometimes|numeric',
         ];
     }
 
-    public function toArray(): array 
+    public function toArray(): array
     {
         return [
             'name' => $this->name,
             'powerRating' => $this->powerRating,
             'usageHours' => $this->usageHours,
+            'units' => $this->units,
         ];
     }
 
-    public function toJsonArray(): array 
+    public function toJsonArray(): array
     {
         return [
             'deviceName' => $this->name,
             'powerRating' => $this->powerRating,
             'usageHours' => $this->usageHours,
+            'units' => $this->units,
             'createdAt' => $this->createdAt,
             'updatedAt' => $this->updatedAt,
         ];
@@ -51,10 +56,11 @@ class DeviceDTO implements DTO
     public function __toString(): string
     {
         return sprintf(
-            'Device Name: %s, Power Rating: %d, Usage Hours: %d',
+            'Device Name: %s, Power Rating: %d, Usage Hours: %d, Units: %d',
             $this->name,
             $this->powerRating,
-            $this->usageHours
+            $this->usageHours,
+            $this->units
         );
     }
 
@@ -89,6 +95,17 @@ class DeviceDTO implements DTO
     public function setUsageHours(int $usageHours): void
     {
         $this->usageHours = $usageHours;
+    }
+
+    // Getter and Setter for units
+    public function getUnits(): int
+    {
+        return $this->units;
+    }
+
+    public function setUnits(int $units): void
+    {
+        $this->units = $units;
     }
 
     // Getter and Setter for createdAt

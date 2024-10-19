@@ -1,5 +1,5 @@
-import deviceService from './deviceService';
+import applianceService from './applianceService';
 
 export {
-    deviceService,
+    applianceService,
 };

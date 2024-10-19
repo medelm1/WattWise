@@ -2,12 +2,10 @@
 import { ref } from 'vue';
 import { useTabStore } from '@/stores/tabStore';
 import Estimator from '@/views/Estimator.vue';
-import Devices from '@/views/Devices.vue';
 import Settings from '@/views/Settings.vue';
+import Appliances from '@/views/Appliances.vue';
 
 const tabStore = useTabStore();
-
-const text = ref('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.');
 
 </script>
 
@@ -24,9 +22,9 @@ const text = ref('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed d
         Estimator
       </v-tab>
 
-      <v-tab value="devices-tab">
+      <v-tab value="appliances-tab">
         <v-icon icon="mdi-devices"></v-icon>
-        Devices
+        Appliances
       </v-tab>
 
       <v-tab value="settings-tab">
@@ -39,8 +37,8 @@ const text = ref('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed d
       <v-tabs-window-item value="estimator-tab">
         <Estimator />
       </v-tabs-window-item>
-      <v-tabs-window-item value="devices-tab">
-        <Devices />
+      <v-tabs-window-item value="appliances-tab">
+        <Appliances />
       </v-tabs-window-item>
       <v-tabs-window-item value="settings-tab">
         <Settings />

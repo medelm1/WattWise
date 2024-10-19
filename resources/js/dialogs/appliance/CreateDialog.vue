@@ -3,19 +3,19 @@ import { reactive } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 import { notification } from '@/utils';
-import { deviceService } from '@/services';
+import { applianceService } from '@/services';
 
 let state = initializeState();
 
 const rules = {
     name: {
-        required: helpers.withMessage('Device name is required.', required),
+        required: helpers.withMessage('Appliance name is required.', required),
     },
     powerRating: {
-        required: helpers. withMessage('Device powser is rating is required.', required),
+        required: helpers. withMessage('Appliance powser is rating is required.', required),
     },
     usageHours: {
-        required: helpers.withMessage('Device usage hours is required.', required),
+        required: helpers.withMessage('Appliance usage hours is required.', required),
     }
 };
 
@@ -31,13 +31,13 @@ function initializeState() {
 
 async function handleSave() {
     try {
-        await deviceService.create({
+        await applianceService.create({
             name: state.name,
             powerRating: parseInt(state.powerRating),
             usageHours: parseInt(state.usageHours),
         });
 
-        notification('Device added successfully!', 'success');
+        notification('Appliance added successfully!', 'success');
     } catch (error) {
         console.log(error);
     }
@@ -56,19 +56,19 @@ function handleClose(isActive) {
             <v-btn
                 v-bind="activatorProps"
                 color="surface-variant"
-                text="New Device"
+                text="New Appliance"
                 variant="flat"
             ></v-btn>
         </template>
         <template v-slot:default="{ isActive }">
-            <v-card title="New device">
+            <v-card title="New Appliance">
                 <v-card-text>
                     <form>
                         <v-text-field
                             v-model="state.name"
                             :counter="64"
                             :error-messages="v$.name.$errors.map(e => e.$message)"
-                            label="Device Name"
+                            label="Appliance Name"
                             required
                             @blur="v$.name.$touch"
                             @input="v$.name.$touch"

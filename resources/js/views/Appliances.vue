@@ -1,14 +1,17 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import DeviceCreateDialog from '@/dialogs/device/CreateDialog.vue';
-import { deviceService } from '@/services';
+import ApplianceCreateDialog from '@/dialogs/appliance/CreateDialog.vue';
+import { applianceService } from '@/services';
 import { notification } from '@/utils';
 
-const devices = ref([]);
+const appliances = ref([]);
 
 onMounted(async () => {
     try {
-        devices.value = await deviceService.fetchAll();
+        appliances.value = await applianceService.fetchAll();
+
+        console.log(appliances.value);
+
     } catch (error) {
         notification(error.message, 'error');
     }
@@ -18,7 +21,7 @@ onMounted(async () => {
 <template>
 <v-card class="pa-4">
     <div class="mb-4">
-        <DeviceCreateDialog />
+        <ApplianceCreateDialog />
     </div>
     <v-table>
         <thead>
@@ -32,12 +35,12 @@ onMounted(async () => {
             </tr>
         </thead>
         <tbody>
-            <tr v-for="device in devices" :key="device.id">
-                <td>{{ device.deviceName }}</td>
-                <td>{{ `${device.powerRating}W` }}</td>
-                <td>{{ `${device.usageHours}h/day` }}</td>
-                <td>{{ `${(device.powerRating * device.usageHours) / 1000}kWh` }}</td>
-                <td>{{ `${(device.powerRating * device.usageHours) * 30 / 1000}kWh` }}</td>
+            <tr v-for="appliance in appliances" :key="appliance.id">
+                <td>{{ appliance.deviceName }}</td>
+                <td>{{ `${appliance.powerRating}W` }}</td>
+                <td>{{ `${appliance.usageHours}h/day` }}</td>
+                <td>{{ `${(appliance.powerRating * appliance.usageHours) / 1000}kWh` }}</td>
+                <td>{{ `${(appliance.powerRating * appliance.usageHours) * 30 / 1000}kWh` }}</td>
                 <td class="text-right">
                     <v-btn variant="flat" size="small" color="surface-variant" class="me-2">Edit</v-btn>
                     <v-btn variant="flat" size="small" color="surface-variant">Delete</v-btn>
