@@ -1,12 +1,12 @@
-# Power Consumption Estimator
+# Energy Consumption Estimator
 
-A web application to estimate the power consumption in a building. The app allows users to list electrical devices, specify their power ratings and usage hours, and calculate the daily and monthly energy consumption.
+A web application to estimate the energy consumption in a household. The app allows users to list electrical devices, specify their power ratings and usage hours, and calculate the daily and monthly energy consumption.
 
 ## Features
 
 - List electrical devices and their power ratings
 - Estimate daily and monthly energy consumption
-- API endpoints for CRUD operations on devices
+- API endpoints for CRUD operations on appliances
 - Frontend interface to interact with the API
 
 ## Technologies
