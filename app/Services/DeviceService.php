@@ -14,14 +14,14 @@ class DeviceService {
         $this->validateData = $validateData;
     }
 
-    public function createDevice(DeviceDTO $deviceDTO): Device {
-        $validatedData = $this->validateData->execute($deviceDTO);
-        return Device::create($validatedData->safe()->all());
-    }
-
-    public function getAllDevices(): \Illuminate\Database\Eloquent\Collection
+    public function getAllDevices(): \Illuminate\Support\Collection
     {
-        return Device::all();
+        $devices = Device::all();
+
+        return $devices->map(function ($device) {
+            $deviceDTO = new DeviceDTO($device);
+            return $deviceDTO->toJsonArray();
+        });
     }
 
     public function getDeviceById($id): ?Device
@@ -29,17 +29,33 @@ class DeviceService {
         return Device::find($id);
     }
 
+    public function createDevice(DeviceDTO $deviceDTO): DeviceDTO {
+
+        $validatedData = $this->validateData->execute($deviceDTO);
+
+        $newDevice = Device::create([
+            'name' => $validatedData['name'],
+            'power_rating' => $validatedData['powerRating'],
+            'usage_hours' => $validatedData['usageHours'],
+        ]);
+
+        $newDeviceDTO = new DeviceDTO($newDevice);
+
+        return $newDeviceDTO;
+    }
+
     public function updateDevice($id, DeviceDTO $deviceDTO): ?Device
     {
-        $device = Device::find($id);
-        if (!$device) {
-            return null;
-        }
+        // $device = Device::find($id);
+        // if (!$device) {
+        //     return null;
+        // }
         
-        $validatedData = $this->validateData->exceute($deviceDTO);
-        $device->update($validatedData->safe()->all());
+        // $validatedData = $this->validateData->execute($deviceDTO);
+        // $device->update($validatedData->safe()->all());
         
-        return $device;
+        // return $device;
+        return null;
     }
 
     public function deleteDevice($id): bool

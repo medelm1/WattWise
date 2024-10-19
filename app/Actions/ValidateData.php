@@ -3,19 +3,19 @@
 namespace App\Actions;
 
 use App\DTOs\DTO;
-use Dotenv\Exception\ValidationException;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class ValidateData {
 
-    public function execute(DTO $dto) {
+    public function execute(DTO $dto): array {
         $validator = Validator::make($dto->toArray(), $dto->rules());
 
         if ($validator->fails()) {
             throw new ValidationException($validator);
         }
 
-        return $validator;
+        return $validator->safe()->all();
     }
 
 }

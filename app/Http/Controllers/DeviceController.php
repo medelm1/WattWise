@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\DTOs\DeviceDTO;
-use App\Http\Responses\DeviceJsonResponse;
 use App\Services\DeviceService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -20,7 +19,7 @@ class DeviceController extends Controller
     public function index() 
     {
         $devices = $this->deviceService->getAllDevices();
-        return new DeviceJsonResponse($devices);
+        return response()->json($devices);
     }
 
     public function show($id) 
@@ -31,16 +30,17 @@ class DeviceController extends Controller
             return response()->json(['message' => 'Device not found'], 404);
         }
 
-        return new DeviceJsonResponse($device);     
+        return response()->json($device);     
     }
 
     public function store(Request $request) 
     {
         try {
             $deviceDTO = new DeviceDTO($request->all());
-            $newCreatedDevice = $this->deviceService->createDevice($deviceDTO);
 
-            return new DeviceJsonResponse($newCreatedDevice, 201);
+            $newCreatedDeviceDTO = $this->deviceService->createDevice($deviceDTO);
+
+            return response()->json($newCreatedDeviceDTO->toJsonArray(), 201);
 
         } catch (ValidationException $e) {
             return response()->json(['message' => $e->validator->errors()], 442);
@@ -56,7 +56,7 @@ class DeviceController extends Controller
             return response()->json(['message' => 'Device not found'], 404);
         }
 
-        return new DeviceJsonResponse($updatedDevice, 200);
+        return response()->json($updatedDevice);
     }
 
     public function destroy($id) 

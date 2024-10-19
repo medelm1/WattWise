@@ -2,6 +2,8 @@
 import { reactive } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
+import { notification } from '@/utils';
+import { deviceService } from '@/services';
 
 let state = initializeState();
 
@@ -28,8 +30,17 @@ function initializeState() {
 }
 
 async function handleSave() {
-    console.log('Adding new device...');
-    console.log(state);
+    try {
+        await deviceService.create({
+            name: state.name,
+            powerRating: parseInt(state.powerRating),
+            usageHours: parseInt(state.usageHours),
+        });
+
+        notification('Device added successfully!', 'success');
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 function handleClose(isActive) {
@@ -57,7 +68,7 @@ function handleClose(isActive) {
                             v-model="state.name"
                             :counter="64"
                             :error-messages="v$.name.$errors.map(e => e.$message)"
-                            label="Name"
+                            label="Device Name"
                             required
                             @blur="v$.name.$touch"
                             @input="v$.name.$touch"
@@ -66,7 +77,7 @@ function handleClose(isActive) {
                         <v-text-field
                             v-model="state.powerRating"
                             :error-messages="v$.powerRating.$errors.map(e => e.$message)"
-                            label="Power Rating"
+                            label="Power Rating (Watts)"
                             required
                             @blur="v$.powerRating.$touch"
                             @input="v$.powerRating.$touch"

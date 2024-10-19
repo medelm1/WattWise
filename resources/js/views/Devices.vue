@@ -26,14 +26,18 @@ onMounted(async () => {
                 <th class="text-left">Name</th>
                 <th>Power Rating</th>
                 <th>Usage Hours</th>
+                <th>Daily Consumption</th>
+                <th>Monthly Consumption</th>
                 <th class="text-right">Action</th>
             </tr>
         </thead>
         <tbody>
             <tr v-for="device in devices" :key="device.id">
-                <td>{{ device.name }}</td>
-                <td>{{ `${device.power_rating}W` }}</td>
-                <td>{{ `${device.usage_hours}h/day` }}</td>
+                <td>{{ device.deviceName }}</td>
+                <td>{{ `${device.powerRating}W` }}</td>
+                <td>{{ `${device.usageHours}h/day` }}</td>
+                <td>{{ `${(device.powerRating * device.usageHours) / 1000}kWh` }}</td>
+                <td>{{ `${(device.powerRating * device.usageHours) * 30 / 1000}kWh` }}</td>
                 <td class="text-right">
                     <v-btn variant="flat" size="small" color="surface-variant" class="me-2">Edit</v-btn>
                     <v-btn variant="flat" size="small" color="surface-variant">Delete</v-btn>

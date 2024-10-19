@@ -2,13 +2,8 @@ import { api } from '@/utils';
 
 async function fetchAll() {
     try {
-        const response = await api.get('/api/devices');
-        
-        if (response?.devices) {
-            return response.devices;
-        } else {
-            throw new Error('Invalid response format.');
-        }
+        return await api.get('/api/devices');
+
     } catch (error) {
         console.error('Error while attempting to fetch the devices:', error);
         throw error;
@@ -27,6 +22,10 @@ async function fetch(deviceID) {
 async function create(payload) {
     try {
         const response = await api.post('/api/devices', payload);
+
+        console.log(response);
+        return null;
+
     } catch (error) {
         console.error('Error while attempting to add new device:', error);
         throw error;
