@@ -1,29 +1,33 @@
-import { useToast, TYPE, POSITION } from 'vue-toastification';
+import { useToast, TYPE, POSITION } from "vue-toastification";
 
-export default function notification(message, type = 'info') {
-    const toast = useToast();
+const toast = useToast();
 
-    const toastType = (() => {
-        switch (type) {
-            case 'success':
-                return TYPE.SUCCESS;
-            case 'error':
-                return TYPE.ERROR;
-            case 'default':
-                return TYPE.DEFAULT;
-            case 'warning':
-                return TYPE.WARNING;
-            default:
-                return TYPE.INFO;
-        }
-    })();
-
-    return toast(message, {
-        type: toastType,
+const notify = (message, type) => {
+    toast(message, {
+        type,
         position: POSITION.TOP_CENTER,
-        timeout: 30000,
+        timeout: 3000,
         draggable: true,
         closeOnClick: true,
     });
-}
+};
 
+const notification = {
+    success(message) {
+        notify(message, TYPE.SUCCESS);
+    },
+    error(message) {
+        notify(message, TYPE.ERROR);
+    },
+    info(message) {
+        notify(message, TYPE.INFO);
+    },
+    warning(message) {
+        notify(message, TYPE.WARNING);
+    },
+    default(message) {
+        notify(message, TYPE.DEFAULT);
+    },
+};
+
+export default notification;

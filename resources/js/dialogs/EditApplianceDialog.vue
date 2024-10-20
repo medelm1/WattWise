@@ -50,10 +50,10 @@ async function handleSaveChanges()
 
             editApplianceDialogStore.close();
 
-            notification('Appliance updated succesfully!', 'success');
+            notification.success('Appliance updated succesfully!');
 
         } catch (error) {
-            notification(error.message, 'error');
+            notification.error(error.message);
         }
     }
 }

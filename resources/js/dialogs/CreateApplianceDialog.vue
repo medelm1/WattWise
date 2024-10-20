@@ -44,10 +44,10 @@ async function handleSaveChanges() {
 
             createApplianceDialogStore.close();
             
-            notification('Appliance added successfully!', 'success');
+            notification.success('Appliance added successfully!');
 
         } catch (error) {
-            notification(error.message, 'error');
+            notification.error(error.message);
         }
     }
 }

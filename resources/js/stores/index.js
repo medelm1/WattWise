@@ -4,12 +4,5 @@ export { useApplianceStore } from './applianceStore';
 
 export { useEditApplianceDialogStore } from './dialogStore/editApplianceDialogStore';
 export { useCreateApplianceDialogStore } from './dialogStore/createApplianceDialogStore';
-
-
-// export {
-//     useTabStore,
-//     useApplianceStore,
-
-//     useEditApplianceDialogStore,
-//     useCreateApplianceDialogStore,
-// };
+export { useConfirmationDialogStore } from './dialogStore/confirmationDialogStore';
+export { useApplianceDetailsDialogStore } from './dialogStore/applianceDetailsDialogStore';

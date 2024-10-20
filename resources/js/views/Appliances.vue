@@ -2,17 +2,23 @@
 import { onMounted } from 'vue';
 import EditApplianceDialog from '@/dialogs/EditApplianceDialog.vue';
 import CreateApplianceDialog from '@/dialogs/CreateApplianceDialog.vue';
+import ConfirmationDialog from '@/dialogs/ConfirmationDialog.vue';
+import ApplianceDetailsDialog from '@/dialogs/ApplianceDetailsDialog.vue';
 import { applianceService } from '@/services';
 import { 
     useApplianceStore, 
     useEditApplianceDialogStore,
     useCreateApplianceDialogStore,
+    useConfirmationDialogStore,
+    useApplianceDetailsDialogStore,
 } from '@/stores';
 import { notification } from '@/utils';
 
 const applianceStore = useApplianceStore();
 const editApplianceDialogStore = useEditApplianceDialogStore();
 const createApplianceDialogStore = useCreateApplianceDialogStore();
+const confirmationDialogStore = useConfirmationDialogStore();
+const applianceDetailsDialogStore = useApplianceDetailsDialogStore();
 
 onMounted(async () => {
     try {
@@ -25,18 +31,20 @@ onMounted(async () => {
     }
 });
 
-async function handleDeleteAppliance(applianceId)
+function handleDeleteAppliance(applianceId)
 {
-    try {
-        await applianceService.remove(applianceId);
+    confirmationDialogStore.open(async () => {
+        try {
+            await applianceService.remove(applianceId);
 
-        applianceStore.removeAppliance(applianceId);
+            applianceStore.removeAppliance(applianceId);
 
-        notification('Appliance deleted succesfully!', 'success');
+            notification.success('Appliance deleted succesfully!');
 
-    } catch (error) {
-        notification(error.message, 'error');
-    }
+        } catch (error) {
+            notification.error(error.message);
+        }
+    });
 }
 
 </script>
@@ -44,6 +52,8 @@ async function handleDeleteAppliance(applianceId)
 
     <EditApplianceDialog />
     <CreateApplianceDialog />
+    <ConfirmationDialog />
+    <ApplianceDetailsDialog />
 
     <v-card class="pa-4">
         <div class="mb-4">
@@ -60,8 +70,6 @@ async function handleDeleteAppliance(applianceId)
                     <th class="text-left">Name</th>
                     <th>Power Rating</th>
                     <th>Usage Hours</th>
-                    <th>Daily Consumption</th>
-                    <th>Monthly Consumption</th>
                     <th class="text-right">Action</th>
                 </tr>
             </thead>
@@ -70,9 +78,11 @@ async function handleDeleteAppliance(applianceId)
                     <td>{{ `${appliance.name} (${appliance.units})` }}</td>
                     <td>{{ `${appliance.powerRating}W` }}</td>
                     <td>{{ `${appliance.usageHours}h/day` }}</td>
-                    <td>{{ `${(appliance.powerRating * appliance.usageHours) / 1000}kWh` }}</td>
-                    <td>{{ `${(appliance.powerRating * appliance.usageHours) * 30 / 1000}kWh` }}</td>
                     <td class="text-right">
+                        <v-btn 
+                            variant="flat" size="small" color="surface-variant" class="ml-1"
+                            @click="() => applianceDetailsDialogStore.open(appliance)"
+                        >Consumption</v-btn>
                         <v-btn 
                             variant="flat" size="small" color="surface-variant" class="ml-1"
                             @click="() => editApplianceDialogStore.open(appliance)"

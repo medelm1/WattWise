@@ -45,6 +45,18 @@ class ApplianceDTO implements DTO
 
     public function toJsonArray(): array
     {
+        $energyCategory = '';
+
+        if ($this->powerRating < 200) {
+            $energyCategory = 'Low';
+        } elseif ($this->powerRating >= 200 && $this->powerRating <= 799) {
+            $energyCategory = 'Medium';
+        } elseif ($this->powerRating >= 800 && $this->powerRating <= 1400) {
+            $energyCategory = 'High';
+        } else {
+            $energyCategory = 'Very High';
+        }
+
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -53,6 +65,7 @@ class ApplianceDTO implements DTO
             'units' => $this->units,
             'createdAt' => $this->createdAt,
             'updatedAt' => $this->updatedAt,
+            'energyCategory' => $energyCategory,
         ];
     }
 
