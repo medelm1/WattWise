@@ -4,6 +4,7 @@ namespace App\DTOs;
 
 class ApplianceDTO implements DTO
 {
+    private $id;
     private $name;
     private $powerRating;
     private $usageHours;
@@ -13,6 +14,7 @@ class ApplianceDTO implements DTO
 
     public function __construct($data) 
     {
+        $this->id = $data['id'] ?? null;
         $this->name = $data['name'] ?? '';
         $this->powerRating = (int) ($data['powerRating'] ?? 0);
         $this->usageHours = (int) ($data['usageHours'] ?? 0);
@@ -44,7 +46,8 @@ class ApplianceDTO implements DTO
     public function toJsonArray(): array
     {
         return [
-            'deviceName' => $this->name,
+            'id' => $this->id,
+            'name' => $this->name,
             'powerRating' => $this->powerRating,
             'usageHours' => $this->usageHours,
             'units' => $this->units,

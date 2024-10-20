@@ -69,4 +69,50 @@ class ApplianceService
 
         return new ApplianceDTO($newAppliance);
     }
+
+    /**
+     * Update an existing appliance in the database.
+     *
+     * @param int $id
+     * @param ApplianceDTO $applianceDTO
+     * @return ApplianceDTO
+     * @throws ModelNotFoundException if the appliance is not found.
+     */
+    public function updateAppliance(int $id, ApplianceDTO $applianceDTO): ApplianceDTO
+    {
+        $appliance = Appliance::find($id);
+
+        if (!$appliance) {
+            throw new ModelNotFoundException('Appliance not found');
+        }
+
+        $validatedData = $this->validateData->execute($applianceDTO);
+
+        $appliance->update([
+            'name' => $validatedData['name'],
+            'power_rating' => $validatedData['powerRating'],
+            'usage_hours' => $validatedData['usageHours'],
+            'units' => $validatedData['units'],
+        ]);
+
+        return new ApplianceDTO($appliance);
+    }
+
+    /**
+     * Delete a specific appliance by its ID.
+     *
+     * @param int $id
+     * @throws ModelNotFoundException if the appliance is not found.
+     */
+    public function deleteApplianceById(int $id): void
+    {
+        $appliance = Appliance::find($id);
+
+        if (!$appliance) {
+            throw new ModelNotFoundException('Appliance not found');
+        }
+
+        $appliance->delete();
+    }
+
 }

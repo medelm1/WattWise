@@ -74,5 +74,53 @@ class ApplianceController extends Controller
         }
     }
 
+    /**
+     * Update the specified appliance in the database.
+     *
+     * @param Request $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request, int $id)
+    {
+        try {
+            $updatedApplianceDTO = $this->applianceService->updateAppliance(
+                $id, 
+                new ApplianceDTO($request->all())
+            );
+
+            return response()->json($updatedApplianceDTO->toJsonArray(), Response::HTTP_OK);
+
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['message' => $e->getMessage()], Response::HTTP_NOT_FOUND);
+
+        } catch (ValidationException $e) {
+            return response()->json(['message' => $e->validator->errors()], Response::HTTP_UNPROCESSABLE_ENTITY);
+
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Remove the specified appliance from the database.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(int $id)
+    {
+        try {
+            $this->applianceService->deleteApplianceById($id); 
+
+            return response()->json(['message' => 'Appliance deleted successfully'], Response::HTTP_NO_CONTENT);
+
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['message' => $e->getMessage()], Response::HTTP_NOT_FOUND);
+
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }
