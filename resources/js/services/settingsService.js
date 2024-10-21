@@ -30,8 +30,19 @@ async function edit(payload, settingKey) {
     }
 }
 
+async function editMultiple(payload) {
+    try {
+        return await api.put(`/api/settings`, payload);
+
+    } catch (error) {
+        console.error('Error while attempting to edit the settings:', error);
+        throw error;
+    }
+}
+
 export default {
     fetchAll,
     fetch,
     edit,
+    editMultiple
 };

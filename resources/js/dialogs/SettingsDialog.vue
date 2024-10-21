@@ -6,6 +6,7 @@ import { settingsService } from '@/services';
 import { useSettingsDialogStore } from '@/stores';
 import { notification } from '@/utils';
 import currencies from '@/data/currencies';
+import _ from 'lodash';
 
 const settingsDialogStore = useSettingsDialogStore();
 
@@ -33,7 +34,35 @@ async function handleSaveChanges()
     if (!isValid) return;
     
     try {
-        // Continue for here
+        const payload = {
+            settings: [
+                {
+                    key: 'currency',
+                    value: _.chain(currencies)
+                        .find({ title: state.currency })
+                        .thru(currency => {
+                            if (!currency) {
+                                return {};
+                            }
+                            return {
+                                code: currency.title,
+                                name: currency.props.subtitle
+                            };
+                        })
+                        .value()
+                },
+                {
+                    key: 'energy_rate',
+                    value: parseFloat(state.energyRate)
+                }
+            ]
+        };
+
+        await settingsService.editMultiple(payload);
+
+        notification.success('Settings updated successfully!');
+
+        settingsDialogStore.close();
 
     } catch (error) {
         notification.error(error.message);
