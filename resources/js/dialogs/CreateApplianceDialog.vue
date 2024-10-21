@@ -74,7 +74,7 @@ watch(
 </script>
 <template>
     <v-dialog v-model="createApplianceDialogStore.isOpen" max-width="500">
-        <v-card title="Edit Appliance">
+        <v-card title="New Appliance">
             <v-card-text>
                 <form>
                     <v-text-field

@@ -1,9 +1,4 @@
-<script setup>
-import { reactive } from 'vue';
-import { useVuelidate } from '@vuelidate/core';
-import { required, numeric, helpers } from '@vuelidate/validators';
-
-const currencies = [
+export default [
     {
         title: 'USD',
         props: { subtitle: 'US Dollar' }
@@ -53,26 +48,3 @@ const currencies = [
         props: { subtitle: 'Mexican Peso' }
     }
 ];
-
-const state = reactive({
-    currency: 'INR', 
-});
-
-async function saveChanges()
-{
-
-}
-
-
-</script>
-<template>
-    <v-card class="pa-4">
-        <form>
-            <v-select
-                v-model="state.currency"
-                label="Currency"
-                :items="currencies" 
-            ></v-select>
-        </form>
-    </v-card>
-</template>
