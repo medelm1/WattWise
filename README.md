@@ -15,7 +15,7 @@ A web application to estimate the energy consumption in a household. The app all
 - Frontend: Vue.js 3
 - State Management: Pinia
 - Database: MySQL
-- Styling: Tailwind CSS
+- Styling: Vuetify
 - HTTP Client: Axios
 
 ## Getting Started
