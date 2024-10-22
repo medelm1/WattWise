@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->integer('power_rating');
-            $table->integer('usage_hours');
+            $table->decimal('usage_hours');
             $table->integer('units')->default(1);
             $table->timestamps();
         });

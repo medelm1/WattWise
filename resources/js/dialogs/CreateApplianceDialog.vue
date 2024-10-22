@@ -36,9 +36,9 @@ async function handleSaveChanges() {
             applianceStore.addAppliance(
                 await applianceService.create({
                     name: state.name,
-                    powerRating: parseInt(state.powerRating),
-                    usageHours: parseInt(state.usageHours),
-                    units: parseInt(state.units),
+                    powerRating: state.powerRating,
+                    usageHours: state.usageHours,
+                    units: state.units,
                 })
             );
 
