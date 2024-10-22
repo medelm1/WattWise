@@ -17,7 +17,7 @@ class ApplianceDTO implements DTO
         $this->id = $data['id'] ?? null;
         $this->name = $data['name'] ?? '';
         $this->powerRating = (int) ($data['powerRating'] ?? 0);
-        $this->usageHours = (int) ($data['usageHours'] ?? 0);
+        $this->usageHours = (float) ($data['usageHours'] ?? 0);
         $this->units = (int) ($data['units'] ?? 1);
         $this->createdAt = $data['createdAt'] ?? '';
         $this->updatedAt = $data['createdAt'] ?? '';
