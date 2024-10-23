@@ -16,7 +16,7 @@ A web application to estimate the energy consumption in a household. The app all
 - State Management: Pinia
 - Database: MySQL
 - Build Tool: Vite
-- Styling: Vuetify
+- Styling: PrimeVue v4
 - HTTP Client: Axios
 
 ## Getting Started

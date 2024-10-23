@@ -1,39 +1,20 @@
 <script setup>
 import { ref } from 'vue';
-import { useTabStore } from '@/stores/tabStore';
-import Settings from '@/views/Settings.vue';
-import Estimator from '@/views/Estimator.vue';
+import { useTabStore } from "@/stores/tabStore";
+import Settings from "@/views/Settings.vue";
+import Estimator from "@/views/Estimator.vue";
+import Button from "primevue/button";
+import InputText from 'primevue/inputtext';
 
 const tabStore = useTabStore();
+
+const text = ref('');
 
 </script>
 
 <template>
-  <v-card class="ma-4">
-    <v-tabs
-      v-model="tabStore.activeTab"
-      align-tabs="center"
-      bg-color="orange"
-      stacked
-    >
-      <v-tab value="estimator-tab">
-        <v-icon icon="mdi-lightning-bolt"></v-icon>
-        Estimator
-      </v-tab>
-
-      <v-tab value="settings-tab">
-        <v-icon icon="mdi-cog"></v-icon>
-        Settings
-      </v-tab>
-    </v-tabs>
-
-    <v-tabs-window v-model="tabStore.activeTab">
-      <v-tabs-window-item value="estimator-tab">
-        <Estimator />
-      </v-tabs-window-item>
-      <v-tabs-window-item value="settings-tab">
-        <Settings />
-      </v-tabs-window-item>
-    </v-tabs-window>
-  </v-card>
+    <button>hi</button>
+    <InputText v-model="text" />
+    <Button icon="pi pi-user" label="Save" />
+    <span class="text-red-200">{{ text }}</span>
 </template>
