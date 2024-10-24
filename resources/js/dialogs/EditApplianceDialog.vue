@@ -2,6 +2,10 @@
 import { reactive, watch } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required, numeric, helpers } from '@vuelidate/validators';
+import Dialog from 'primevue/dialog';
+import InputText from 'primevue/inputtext';
+import Button from 'primevue/button';
+import Message from 'primevue/message';
 import { applianceService } from '@/services';
 import { useApplianceStore, useEditApplianceDialogStore } from '@/stores';
 import { notification } from '@/utils';
@@ -72,61 +76,41 @@ watch(
 
 </script>
 <template>
-    <v-dialog v-model="editApplianceDialogStore.isOpen" max-width="500">
-        <v-card title="Edit Appliance">
-            <v-card-text>
-                <form>
-                    <v-text-field
-                        v-model="state.name"
-                        :counter="64"
-                        :error-messages="v$.name.$errors.map(e => e.$message)"
-                        label="Appliance Name"
-                        required
-                        @blur="v$.name.$touch"
-                        @input="v$.name.$touch"
-                        class="mb-2"
-                    ></v-text-field>
-                    <v-text-field
-                        v-model="state.powerRating"
-                        :error-messages="v$.powerRating.$errors.map(e => e.$message)"
-                        label="Power Rating (Watts)"
-                        required
-                        @blur="v$.powerRating.$touch"
-                        @input="v$.powerRating.$touch"
-                        class="mb-2"
-                    ></v-text-field>
-                    <v-text-field
-                        v-model="state.usageHours"
-                        :error-messages="v$.usageHours.$errors.map(e => e.$message)"
-                        label="Usage Hours"
-                        required
-                        @blur="v$.usageHours.$touch"
-                        @input="v$.usageHours.$touch"
-                        class="mb-2"
-                    ></v-text-field>
-                    <v-text-field
-                        v-model="state.units"
-                        :error-messages="v$.units.$errors.map(e => e.$message)"
-                        label="Units"
-                        @blur="v$.units.$touch"
-                        @input="v$.units.$touch"
-                        class="mb-2"
-                    ></v-text-field>
-                </form>
-            </v-card-text>
-            <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn 
-                    text="Save Changes" 
-                    color="primary" 
-                    class="me-2"
-                    @click="handleSaveChanges"
-                ></v-btn>
-                <v-btn
-                    text="Close"
-                    @click="editApplianceDialogStore.close"
-                ></v-btn>
-            </v-card-actions>
-        </v-card>
-    </v-dialog>
+    <Dialog v-model:visible="editApplianceDialogStore.isOpen" modal header="Settings" :style="{ width: '25rem' }">
+        <template #header>
+            Edit Appliance
+        </template>
+        <div class="flex flex-col gap-2 mb-4">
+            <label for="name" class="font-semibold">Appliance Name</label>
+            <InputText v-model="state.name" :invalid="v$.name.$error" id="name" class="flex-auto" aria-autocomplete="off"></InputText>
+            <Message v-if="v$.name.$error" severity="error">
+                <span class="text-sm">{{ v$.name.$errors[0]?.$message }}</span>
+            </Message>
+        </div>
+        <div class="flex flex-col gap-2 mb-4">
+            <label for="powerRating" class="font-semibold">Power Rating (Watts)</label>
+            <InputText v-model="state.powerRating" :invalid="v$.powerRating.$error" id="powerRating" class="flex-auto" aria-autocomplete="off"></InputText>
+            <Message v-if="v$.powerRating.$error" severity="error">
+                <span class="text-sm">{{ v$.powerRating.$errors[0]?.$message }}</span>
+            </Message>
+        </div>
+        <div class="flex flex-col gap-2 mb-4">
+            <label for="usageHours" class="font-semibold">Usage Hours</label>
+            <InputText v-model="state.usageHours" :invalid="v$.usageHours.$error" id="usageHours" class="flex-auto" aria-autocomplete="off"></InputText>
+            <Message v-if="v$.usageHours.$error" severity="error">
+                <span class="text-sm">{{ v$.usageHours.$errors[0]?.$message }}</span>
+            </Message>
+        </div>
+        <div class="flex flex-col gap-2 mb-4">
+            <label for="units" class="font-semibold">Units</label>
+            <InputText v-model="state.units" :invalid="v$.units.$error" id="units" class="flex-auto" aria-autocomplete="off"></InputText>
+            <Message v-if="v$.units.$error" severity="error">
+                <span class="text-sm">{{ v$.units.$errors[0]?.$message }}</span>
+            </Message>
+        </div>
+        <template #footer>
+            <Button label="Cancel" text severity="secondary" @click="editApplianceDialogStore.close"></Button>
+            <Button label="Save" outlined severity="secondary" @click="handleSaveChanges"></Button>
+        </template>
+    </Dialog>
 </template>

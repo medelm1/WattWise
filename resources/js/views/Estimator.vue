@@ -1,9 +1,12 @@
 <script setup>
 import { onMounted } from 'vue';
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
+import Card from 'primevue/card';
+import Button from 'primevue/button';
 import EditApplianceDialog from '@/dialogs/EditApplianceDialog.vue';
 import CreateApplianceDialog from '@/dialogs/CreateApplianceDialog.vue';
 import ConfirmationDialog from '@/dialogs/ConfirmationDialog.vue';
-import ApplianceDetailsDialog from '@/dialogs/ApplianceDetailsDialog.vue';
 import SettingsDialog from '@/dialogs/SettingsDialog.vue';
 import { applianceService } from '@/services';
 import { 
@@ -11,7 +14,6 @@ import {
     useEditApplianceDialogStore,
     useCreateApplianceDialogStore,
     useConfirmationDialogStore,
-    useApplianceDetailsDialogStore,
     useSettingsDialogStore,
 } from '@/stores';
 import { notification } from '@/utils';
@@ -20,7 +22,6 @@ const applianceStore = useApplianceStore();
 const editApplianceDialogStore = useEditApplianceDialogStore();
 const createApplianceDialogStore = useCreateApplianceDialogStore();
 const confirmationDialogStore = useConfirmationDialogStore();
-const applianceDetailsDialogStore = useApplianceDetailsDialogStore();
 const settingsDialogStore = useSettingsDialogStore();
 
 onMounted(async () => {
@@ -50,63 +51,58 @@ function handleDeleteAppliance(applianceId)
     });
 }
 
+
 </script>
 <template>
 
+    <ConfirmationDialog />
     <EditApplianceDialog />
     <CreateApplianceDialog />
-    <ConfirmationDialog />
-    <ApplianceDetailsDialog />
-    <SettingsDialog />
+    <SettingsDialog /> 
 
-    <v-card class="pa-4">
-        <div class="mb-4">
-            <v-btn
-                color="surface-variant"
-                text="New Appliance"
-                variant="flat"
-                class="me-2"
-                @click="createApplianceDialogStore.open"
-            ></v-btn>
-            <v-btn
-                color="surface-variant"
-                text="Settings"
-                variant="flat"
-                prepend-icon="mdi-cog"
-                @click="settingsDialogStore.open"
-            ></v-btn>
-        </div>
-        <v-table>
-            <thead>
-                <tr>
-                    <th class="text-left">Name</th>
-                    <th>Power Rating</th>
-                    <th>Usage Hours</th>
-                    <th class="text-right">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="appliance in applianceStore.appliances" :key="appliance.id">
-                    <td>{{ `${appliance.name} (${appliance.units})` }}</td>
-                    <td>{{ `${appliance.powerRating}W` }}</td>
-                    <td>{{ `${appliance.usageHours}h/day` }}</td>
-                    <td class="text-right">
-                        <v-btn 
-                            variant="flat" size="small" color="surface-variant" class="ml-1"
-                            @click="() => applianceDetailsDialogStore.open(appliance)"
-                        >Consumption</v-btn>
-                        <v-btn 
-                            variant="flat" size="small" color="surface-variant" class="ml-1"
-                            @click="() => editApplianceDialogStore.open(appliance)"
-                        >Edit</v-btn>
-                        <v-btn 
-                            variant="flat" size="small" color="surface-variant" class="ml-1"
-                            @click="() => handleDeleteAppliance(appliance.id)"
-                        >Delete</v-btn>
-                    </td>
-                </tr>
-            </tbody>
-        </v-table>
-    </v-card>
+    <Card class="max-w-[800px] mx-auto mb-4">
+        <template #content>
+            <div class="flex gap-2">
+                <Button label="New Appliance" size="small" icon="pi pi-plus" @click="createApplianceDialogStore.open"></Button>
+                <Button label="Settings" size="small" icon="pi pi-cog" @click="settingsDialogStore.open"></Button>
+            </div>
+        </template>
+    </Card>
+
+    <Card class="max-w-[800px] mx-auto">
+        <template #content>
+            <DataTable :value="applianceStore.appliances" showGridlines>
+                <Column field="name" header="Appliance Name"></Column>
+                <Column field="powerRating" header="Power Rating">
+                    <template #body="slotProps">
+                        {{ `${slotProps.data.powerRating}W` }}
+                    </template>
+                </Column>
+                <Column field="usageHours" header="Usage Hours">
+                    <template #body="slotProps">
+                        {{ `${slotProps.data.usageHours}h/day` }}
+                    </template>
+                </Column>
+                <Column header="Actions">
+                    <template #body="slotProps">
+                        <div class="flex gap-2">
+                            <Button 
+                                size="small" 
+                                icon="pi pi-pencil" 
+                                aria-label="Edit" 
+                                @click="() => editApplianceDialogStore.open(slotProps.data)"
+                            ></Button>
+                            <Button 
+                                size="small" 
+                                icon="pi pi-times" 
+                                aria-label="Delete" 
+                                @click="() => handleDeleteAppliance(slotProps.data.id)"
+                            ></Button>
+                        </div>
+                    </template>
+                </Column>
+            </DataTable>
+        </template>
+    </Card>
 
 </template>
