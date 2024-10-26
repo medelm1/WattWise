@@ -1,8 +1,12 @@
 <script setup>
+import { ref } from 'vue';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Card from 'primevue/card';
 import Button from 'primevue/button';
+import InputText from 'primevue/inputtext';
+import Slider from 'primevue/slider';
+import Fieldset from 'primevue/fieldset';
 import EditApplianceDialog from '@/dialogs/EditApplianceDialog.vue';
 import CreateApplianceDialog from '@/dialogs/CreateApplianceDialog.vue';
 import ConfirmationDialog from '@/dialogs/ConfirmationDialog.vue';
@@ -25,6 +29,8 @@ const confirmationDialogStore = useConfirmationDialogStore();
 const settingsDialogStore = useSettingsDialogStore();
 const settingsStore = useSettingsStore();
 
+const expandedRows = ref({});
+
 function handleDeleteAppliance(applianceId)
 {
     confirmationDialogStore.open(async () => {
@@ -41,6 +47,33 @@ function handleDeleteAppliance(applianceId)
     });
 }
 
+async function handleApplianceSaveChanges(appliance) {
+    try {
+        applianceStore.updateAppliance(
+            await applianceService.edit(
+                appliance,
+                appliance.id,
+            )
+        );
+
+        notification.success('Appliance saved successfully!');
+    
+    } catch (error) {
+        notification.error(error.message);
+    }
+}
+
+async function handleApplianceReset(applianceId) {
+    try {
+        applianceStore.updateAppliance(
+            await applianceService.fetch(applianceId)
+        );
+
+    } catch (error) {
+        notification.error(error.message);
+    }
+}
+
 
 </script>
 <template>
@@ -50,7 +83,7 @@ function handleDeleteAppliance(applianceId)
     <CreateApplianceDialog />
     <SettingsDialog />
 
-    <div class="max-w-[900px] mx-auto">
+    <div class="max-w-[1100px] mx-auto">
 
         <div class="mb-4 flex gap-4">
             <Card class="w-[50%]">
@@ -78,16 +111,14 @@ function handleDeleteAppliance(applianceId)
 
         <Card class="mx-auto">
             <template #content>
-                <DataTable :value="applianceStore.appliances" showGridlines>
-                    <Column field="name" header="Appliance Name"></Column>
-                    <Column field="powerRating" header="Power Rating">
+                <DataTable v-model:expandedRows="expandedRows" :value="applianceStore.appliances" dataKey="id" showGridlines stripedRows >
+                    <Column expander class="w-[32px]"></Column>
+                    <Column header="Appliance Name">
                         <template #body="slotProps">
-                            {{ `${slotProps.data.powerRating}W` }}
-                        </template>
-                    </Column>
-                    <Column field="usageHours" header="Usage Hours">
-                        <template #body="slotProps">
-                            {{ `${slotProps.data.usageHours}h/day` }}
+                            <div>{{ slotProps.data.name }}</div>
+                            <div class="text-sm text-gray-500">
+                                {{ `Power: ${slotProps.data.powerRating}W` }} - {{ `Usage: ${slotProps.data.usageHours}h/day` }} - {{ `${slotProps.data.units} unit(s)` }}
+                            </div>
                         </template>
                     </Column>
                     <Column header="Actions">
@@ -108,6 +139,31 @@ function handleDeleteAppliance(applianceId)
                             </div>
                         </template>
                     </Column>
+                    <template #expansion="slotProps">
+                        <div class="pb-2">
+                            <div class="flex direction-column gap-4">
+                                <Fieldset legend="Daily Usage Hours" class="mb-4 grow">
+                                    <InputText size="small" v-model.number="slotProps.data.usageHours" class="mb-4 w-full"/>
+                                    <Slider v-model="slotProps.data.usageHours" :min="0" :max="24" :step="0.05"/>
+                                </Fieldset>
+                                <Fieldset legend="Quantity (Units)" class="mb-4 grow">
+                                    <InputText size="small" v-model.number="slotProps.data.units" :min="0" :max="100" class="mb-4 w-full" />
+                                    <Slider v-model="slotProps.data.units"/>
+                                </Fieldset>
+                            </div>
+                            
+                            <div>
+                                <Button 
+                                    label="Reset" size="small" icon="pi pi-replay" class="me-2"
+                                    @click="() => handleApplianceReset(slotProps.data.id)"
+                                ></Button>
+                                <Button 
+                                    label="Save Changes" size="small" icon="pi pi-save"
+                                    @click="() => handleApplianceSaveChanges(slotProps.data)"
+                                ></Button>
+                            </div>
+                        </div>
+                    </template>
                 </DataTable>
             </template>
         </Card>
