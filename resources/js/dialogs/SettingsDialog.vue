@@ -8,12 +8,13 @@ import Button from 'primevue/button';
 import Select from 'primevue/select';
 import Message from 'primevue/message';
 import { settingsService } from '@/services';
-import { useSettingsDialogStore } from '@/stores';
+import { useSettingsDialogStore, useSettingsStore } from '@/stores';
 import { notification } from '@/utils';
 import currencies from '@/data/currencies';
 import _ from 'lodash';
 
 const settingsDialogStore = useSettingsDialogStore();
+const settingsStore = useSettingsStore();
 
 const state = reactive({
     currency: "",
@@ -52,7 +53,9 @@ async function handleSaveChanges()
             ]
         };
 
-        await settingsService.editMultiple(payload);
+        settingsStore.init(
+            await settingsService.editMultiple(payload)
+        );
 
         notification.success('Settings updated successfully!');
 

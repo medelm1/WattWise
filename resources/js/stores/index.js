@@ -1,5 +1,5 @@
-export { useTabStore } from './tabStore';
 export { useApplianceStore } from './applianceStore';
+export { useSettingsStore } from './settingsStore';
 
 
 export { useEditApplianceDialogStore } from './dialogStore/editApplianceDialogStore';

@@ -1,5 +1,4 @@
 <script setup>
-import { onMounted } from 'vue';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Card from 'primevue/card';
@@ -15,6 +14,7 @@ import {
     useCreateApplianceDialogStore,
     useConfirmationDialogStore,
     useSettingsDialogStore,
+    useSettingsStore,
 } from '@/stores';
 import { notification } from '@/utils';
 
@@ -23,17 +23,7 @@ const editApplianceDialogStore = useEditApplianceDialogStore();
 const createApplianceDialogStore = useCreateApplianceDialogStore();
 const confirmationDialogStore = useConfirmationDialogStore();
 const settingsDialogStore = useSettingsDialogStore();
-
-onMounted(async () => {
-    try {
-        applianceStore.init(
-            await applianceService.fetchAll()
-        );
-
-    } catch (error) {
-        notification(error.message, 'error');
-    }
-});
+const settingsStore = useSettingsStore();
 
 function handleDeleteAppliance(applianceId)
 {
@@ -58,51 +48,70 @@ function handleDeleteAppliance(applianceId)
     <ConfirmationDialog />
     <EditApplianceDialog />
     <CreateApplianceDialog />
-    <SettingsDialog /> 
+    <SettingsDialog />
 
-    <Card class="max-w-[800px] mx-auto mb-4">
-        <template #content>
-            <div class="flex gap-2">
-                <Button label="New Appliance" size="small" icon="pi pi-plus" @click="createApplianceDialogStore.open"></Button>
-                <Button label="Settings" size="small" icon="pi pi-cog" @click="settingsDialogStore.open"></Button>
-            </div>
-        </template>
-    </Card>
+    <div class="max-w-[900px] mx-auto">
 
-    <Card class="max-w-[800px] mx-auto">
-        <template #content>
-            <DataTable :value="applianceStore.appliances" showGridlines>
-                <Column field="name" header="Appliance Name"></Column>
-                <Column field="powerRating" header="Power Rating">
-                    <template #body="slotProps">
-                        {{ `${slotProps.data.powerRating}W` }}
-                    </template>
-                </Column>
-                <Column field="usageHours" header="Usage Hours">
-                    <template #body="slotProps">
-                        {{ `${slotProps.data.usageHours}h/day` }}
-                    </template>
-                </Column>
-                <Column header="Actions">
-                    <template #body="slotProps">
-                        <div class="flex gap-2">
-                            <Button 
-                                size="small" 
-                                icon="pi pi-pencil" 
-                                aria-label="Edit" 
-                                @click="() => editApplianceDialogStore.open(slotProps.data)"
-                            ></Button>
-                            <Button 
-                                size="small" 
-                                icon="pi pi-times" 
-                                aria-label="Delete" 
-                                @click="() => handleDeleteAppliance(slotProps.data.id)"
-                            ></Button>
-                        </div>
-                    </template>
-                </Column>
-            </DataTable>
-        </template>
-    </Card>
+        <div class="mb-4 flex gap-4">
+            <Card class="w-[50%]">
+                <template #content>
+                    <span class="">Monthly Energy Cost</span>
+                    <h3 class="text-[32px] font-medium text-[#E87D1C]">{{ applianceStore.totalMonthlyEnergyCost }} <span class="text-gray-500 font-light">{{ settingsStore.currency?.code }}</span></h3>
+                </template>
+            </Card>
+            <Card class="w-[50%]">
+                <template #content>
+                    <span>Yearly Energy Cost</span>
+                    <h3 class="text-[32px] font-medium text-[#249FA6]">{{ applianceStore.totalYearlyEnergyCost }} <span class="text-gray-500 font-light">{{ settingsStore.currency?.code }}</span></h3>
+                </template>
+            </Card>
+        </div>
+
+        <Card class="mx-auto mb-4">
+            <template #content>
+                <div class="flex gap-2">
+                    <Button label="New Appliance" size="small" icon="pi pi-plus" @click="createApplianceDialogStore.open"></Button>
+                    <Button label="Settings" size="small" icon="pi pi-cog" @click="settingsDialogStore.open"></Button>
+                </div>
+            </template>
+        </Card>
+
+        <Card class="mx-auto">
+            <template #content>
+                <DataTable :value="applianceStore.appliances" showGridlines>
+                    <Column field="name" header="Appliance Name"></Column>
+                    <Column field="powerRating" header="Power Rating">
+                        <template #body="slotProps">
+                            {{ `${slotProps.data.powerRating}W` }}
+                        </template>
+                    </Column>
+                    <Column field="usageHours" header="Usage Hours">
+                        <template #body="slotProps">
+                            {{ `${slotProps.data.usageHours}h/day` }}
+                        </template>
+                    </Column>
+                    <Column header="Actions">
+                        <template #body="slotProps">
+                            <div class="flex gap-2">
+                                <Button 
+                                    size="small" 
+                                    icon="pi pi-pencil" 
+                                    aria-label="Edit" 
+                                    @click="() => editApplianceDialogStore.open(slotProps.data)"
+                                ></Button>
+                                <Button 
+                                    size="small" 
+                                    icon="pi pi-times" 
+                                    aria-label="Delete" 
+                                    @click="() => handleDeleteAppliance(slotProps.data.id)"
+                                ></Button>
+                            </div>
+                        </template>
+                    </Column>
+                </DataTable>
+            </template>
+        </Card>
+
+    </div>
 
 </template>
