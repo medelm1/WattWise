@@ -7,6 +7,7 @@ import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import Select from 'primevue/select';
 import Message from 'primevue/message';
+import ToggleSwitch from 'primevue/toggleswitch';
 import { settingsService } from '@/services';
 import { useSettingsDialogStore, useSettingsStore } from '@/stores';
 import { notification } from '@/utils';
@@ -19,6 +20,7 @@ const settingsStore = useSettingsStore();
 const state = reactive({
     currency: "",
     energyRate: "",
+    isDarkMode: "",
 });
 
 const rules = {
@@ -49,6 +51,10 @@ async function handleSaveChanges()
                 {
                     key: 'energy_rate',
                     value: parseFloat(state.energyRate)
+                },
+                {
+                    key: 'is_dark_mode',
+                    value: state.isDarkMode
                 }
             ]
         };
@@ -79,9 +85,15 @@ watch(
                     case 'currency':
                         state.currency = setting.value;
                         break;
+
                     case 'energy_rate':
                         state.energyRate = setting.value;
                         break;
+
+                    case 'is_dark_mode':
+                        state.isDarkMode = setting.value;
+                        break;
+
                     default:
                         console.warn(`Unhandled setting key: ${setting.key}`);
                 }
@@ -111,16 +123,20 @@ watch(
                 <span class="text-sm">{{ v$.currency.$errors[0]?.$message }}</span>
             </Message>
         </div>
-        <div class="flex flex-col gap-2">
+        <div class="flex flex-col gap-2 mb-4">
             <label for="energy_rate" class="font-semibold">Energy Rate</label>
             <InputText v-model="state.energyRate" :invalid="v$.energyRate.$error" id="energy_rate" class="flex-auto" aria-autocomplete="off"></InputText>
             <Message v-if="v$.energyRate.$error" severity="error">
                 <span class="text-sm">{{ v$.energyRate.$errors[0]?.$message }}</span>
             </Message>
         </div>
+        <div class="flex gap-2">
+            <ToggleSwitch v-model="state.isDarkMode" id="isDarkMode"></ToggleSwitch>
+            <label for="is_dark_mode">Dark mode</label>
+        </div>
         <template #footer>
             <Button label="Cancel" text severity="secondary" @click="settingsDialogStore.close"></Button>
-            <Button label="Save" outlined severity="secondary" @click="handleSaveChanges"></Button>
+            <Button label="Apply" outlined severity="secondary" @click="handleSaveChanges"></Button>
         </template>
     </Dialog>
 </template>

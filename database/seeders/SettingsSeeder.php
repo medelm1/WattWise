@@ -22,6 +22,11 @@ class SettingsSeeder extends Seeder
                 'key' => 'energy_rate',
                 'value' => '0.12',
                 'description' => 'Cost of 1 kWh of electricity',
+            ],
+            [
+                'key' => 'is_dark_mode',
+                'value' => json_encode(false),
+                'description' => 'Indicates whether dark mode is enabled',
             ]
         ]);
     }

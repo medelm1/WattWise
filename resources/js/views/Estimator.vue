@@ -111,7 +111,7 @@ async function handleApplianceReset(applianceId) {
 
         <Card class="mx-auto">
             <template #content>
-                <DataTable v-model:expandedRows="expandedRows" :value="applianceStore.appliances" dataKey="id" showGridlines stripedRows >
+                <DataTable v-model:expandedRows="expandedRows" :value="applianceStore.appliances" dataKey="id" stripedRows >
                     <Column expander class="w-[32px]"></Column>
                     <Column header="Appliance Name">
                         <template #body="slotProps">

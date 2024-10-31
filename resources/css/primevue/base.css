@@ -1,73 +1,75 @@
 /* Primary and Surface Palettes */
 :root {
-    --p-primary-50: #f7f7f7;
-    --p-primary-100: #e1e1e1;
-    --p-primary-200: #cfcfcf;
-    --p-primary-300: #b1b1b1;
-    --p-primary-400: #9e9e9e;
-    --p-primary-500: #7e7e7e;
-    --p-primary-600: #626262;
-    --p-primary-700: #515151;
-    --p-primary-800: #3b3b3b;
-    --p-primary-900: #222222;
+    /* Base colors inspired by the energy theme */
+    --p-primary-50: #edeefd;
+    --p-primary-100: #d2d4fb;
+    --p-primary-200: #a7a9f6;
+    --p-primary-300: #6A6AE4; /* Primary vibrant blue */
+    --p-primary-400: #5a5ac2;
+    --p-primary-500: #3A397D; /* Deep accent */
+    --p-primary-600: #2f2e66;
+    --p-primary-700: #272652;
+    --p-primary-800: #1e1e3e;
+    --p-primary-900: #121212; /* Dark base */
     --p-primary-950: #0a0a0a;
+
+    /* Surface tones for backgrounds */
     --p-surface-0: #ffffff;
-    --p-surface-50: #fafafa;
-    --p-surface-100: #f4f4f5;
-    --p-surface-200: #e4e4e7;
-    --p-surface-300: #d4d4d8;
-    --p-surface-400: #a1a1aa;
-    --p-surface-500: #71717a;
-    --p-surface-600: #52525b;
-    --p-surface-700: #3f3f46;
-    --p-surface-800: #27272a;
-    --p-surface-900: #18181b;
-    --p-surface-950: #09090b;
+    --p-surface-50: #f9f9fc;
+    --p-surface-100: #f4f4f9;
+    --p-surface-200: #e2e3f1;
+    --p-surface-300: #c5c7e1;
+    --p-surface-400: #9da0c2;
+    --p-surface-500: #797c9e;
+    --p-surface-600: #5e607e;
+    --p-surface-700: #464764;
+    --p-surface-800: #2e2f3e;
+    --p-surface-900: #1a1b26;
+    --p-surface-950: #0f1017;
+
     --p-content-border-radius: 6px;
 }
 
-/* Light */
+/* Light Mode */
 :root {
-    --p-primary-color: var(--p-primary-500);
+    --p-primary-color: var(--p-primary-300);
     --p-primary-contrast-color: var(--p-surface-0);
-    --p-primary-hover-color: var(--p-primary-600);
-    --p-primary-active-color: var(--p-primary-700);
+    --p-primary-hover-color: var(--p-primary-400);
+    --p-primary-active-color: var(--p-primary-500);
+
+    --p-surface-background: var(--p-surface-0);
     --p-content-border-color: var(--p-surface-200);
     --p-content-hover-background: var(--p-surface-100);
-    --p-content-hover-color: var(--p-surface-800);
+    --p-content-hover-color: var(--p-surface-700);
     --p-highlight-background: var(--p-primary-50);
-    --p-highlight-color: var(--p-primary-700);
+    --p-highlight-color: var(--p-primary-500);
     --p-highlight-focus-background: var(--p-primary-100);
-    --p-highlight-focus-color: var(--p-primary-800);
+    --p-highlight-focus-color: var(--p-primary-700);
     --p-text-color: var(--p-surface-700);
     --p-text-hover-color: var(--p-surface-800);
     --p-text-muted-color: var(--p-surface-500);
     --p-text-hover-muted-color: var(--p-surface-600);
 }
 
-/* 
- * Dark Mode
- * Defaults to system, change the selector to match the darkMode in tailwind.config.
- * For example; 
- * darkMode: ['selector', '[class*="app-dark"]'] 
- * should be;
- * :root[class="app-dark"] {
-*/
+/* Dark Mode */
 @media (prefers-color-scheme: dark) {
     :root {
-        --p-primary-color: var(--p-primary-400);
+        --p-primary-color: var(--p-primary-400); /* Softer vibrant color for dark mode */
         --p-primary-contrast-color: var(--p-surface-900);
         --p-primary-hover-color: var(--p-primary-300);
         --p-primary-active-color: var(--p-primary-200);
+
+        --p-surface-background: var(--p-primary-900); /* Very dark base */
         --p-content-border-color: var(--p-surface-700);
-        --p-content-hover-background: var(--p-surface-800);
+        --p-content-hover-background: var(--p-primary-800);
         --p-content-hover-color: var(--p-surface-0);
-        --p-highlight-background: color-mix(in srgb, var(--p-primary-400), transparent 84%);
-        --p-highlight-color: rgba(255, 255, 255, 0.87);
-        --p-highlight-focus-background: color-mix(in srgb, var(--p-primary-400), transparent 76%);
-        --p-highlight-focus-color: rgba(255, 255, 255, 0.87);
+        --p-highlight-background: rgba(106, 106, 228, 0.2); /* Energy-themed highlight */
+        --p-highlight-color: rgba(106, 106, 228, 0.9);
+        --p-highlight-focus-background: rgba(58, 57, 125, 0.3);
+        --p-highlight-focus-color: rgba(58, 57, 125, 0.9);
+
         --p-text-color: var(--p-surface-0);
-        --p-text-hover-color: var(--p-surface-0);
+        --p-text-hover-color: var(--p-surface-50);
         --p-text-muted-color: var(--p-surface-400);
         --p-text-hover-muted-color: var(--p-surface-300);
     }

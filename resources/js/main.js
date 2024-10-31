@@ -10,7 +10,12 @@ import App from './App.vue';
 const pinia = createPinia();
 const app = createApp(App);
 
-app.use(PrimeVue, { theme: 'none' });
+app.use(
+    PrimeVue, 
+    { 
+        theme: 'none',
+    }
+);
 app.use(pinia);
 app.use(toast);
 

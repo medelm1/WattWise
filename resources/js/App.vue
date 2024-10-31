@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import Estimator from "@/views/Estimator.vue";
 import { useSettingsStore, useApplianceStore } from "./stores";
 import { settingsService, applianceService } from '@/services';
@@ -30,7 +30,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="p-4">
+    <div class="p-4 dark:bg-[#000] h-screen" >
         <Estimator />
     </div>
 </template>

@@ -17,10 +17,17 @@ export default {
                 this.energyRate = value;
                 break;
 
+            case 'is_dark_mode':
+                this.isDarkMode = value;
+
+                document.documentElement.classList.toggle('dark', this.isDarkMode);
+
+                break;
+
             // Add more cases if you have additional settings to handle
             default:
                 console.warn(`Unknown setting key: ${key}`);
         }
-    },
+    }
 };
 
