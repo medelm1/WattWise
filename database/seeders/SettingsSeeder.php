@@ -25,7 +25,7 @@ class SettingsSeeder extends Seeder
             ],
             [
                 'key' => 'is_dark_mode',
-                'value' => json_encode(false),
+                'value' => json_encode(true),
                 'description' => 'Indicates whether dark mode is enabled',
             ]
         ]);

@@ -61,20 +61,25 @@ php artisan key:generate
 ```bash
 php artisan migrate
 ```
+### 6. Seed the Database
 
-### 6. Install Frontend Dependencies:
+```bash
+php artisan db:seed --class=SettingsSeeder
+```
+
+### 7. Install Frontend Dependencies:
 
 ```bash
 npm install
 ```
 
-### 7. Run the Development Server:
+### 8. Run the Development Server:
 
 ```bash
 npm run dev
 ```
 
-### 8. Start the Backend Server:
+### 9. Start the Backend Server:
 
 ```bash
 php artisan serve
