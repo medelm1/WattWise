@@ -30,7 +30,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="p-4 dark:bg-[#000] h-screen" >
+    <div class="p-4" >
         <Estimator />
     </div>
 </template>

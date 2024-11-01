@@ -9,7 +9,7 @@
     <link rel="icon" href="/favicon.png" type="image/png">
     @vite('resources/css/main.css')
 </head>
-<body>
+<body class="dark:bg-[#000]">
     <div id="app"></div>
     @vite('resources/js/main.js')
 </body>
