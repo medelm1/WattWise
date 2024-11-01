@@ -12,6 +12,7 @@ import CreateApplianceDialog from '@/dialogs/CreateApplianceDialog.vue';
 import ConfirmationDialog from '@/dialogs/ConfirmationDialog.vue';
 import SettingsDialog from '@/dialogs/SettingsDialog.vue';
 import { applianceService } from '@/services';
+import Dropdwon from '@/components/Dropdown.vue';
 import { 
     useApplianceStore, 
     useEditApplianceDialogStore,
@@ -113,7 +114,12 @@ async function handleApplianceReset(applianceId) {
             <template #content>
                 <DataTable v-model:expandedRows="expandedRows" :value="applianceStore.appliances" dataKey="id" stripedRows >
                     <Column expander class="w-[32px]"></Column>
-                    <Column header="Appliance Name">
+                    <Column>
+                        <template #header>
+                            <div>
+                                <span>Appliance Name</span>
+                            </div>
+                        </template>
                         <template #body="slotProps">
                             <div>{{ slotProps.data.name }}</div>
                             <div class="text-sm text-gray-500">
@@ -121,21 +127,18 @@ async function handleApplianceReset(applianceId) {
                             </div>
                         </template>
                     </Column>
-                    <Column header="Actions">
+                    <Column>
+                        <template #header>
+                            <div class="flex justify-end w-full">
+                                <span>Actions</span>
+                            </div>
+                        </template>
                         <template #body="slotProps">
-                            <div class="flex gap-2">
-                                <Button 
-                                    size="small" 
-                                    icon="pi pi-pencil" 
-                                    aria-label="Edit" 
-                                    @click="() => editApplianceDialogStore.open(slotProps.data)"
-                                ></Button>
-                                <Button 
-                                    size="small" 
-                                    icon="pi pi-times" 
-                                    aria-label="Delete" 
-                                    @click="() => handleDeleteAppliance(slotProps.data.id)"
-                                ></Button>
+                            <div class="flex justify-end">
+                                <Dropdwon
+                                    @edit="() => editApplianceDialogStore.open(slotProps.data)" 
+                                    @delete="() => handleDeleteAppliance(slotProps.data.id)" 
+                                />
                             </div>
                         </template>
                     </Column>
