@@ -4,6 +4,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { required, numeric, helpers } from '@vuelidate/validators';
 import Dialog from 'primevue/dialog';
 import InputText from 'primevue/inputtext';
+import InputNumber from 'primevue/inputnumber';
 import Button from 'primevue/button';
 import Message from 'primevue/message';
 import { applianceService } from '@/services';
@@ -89,21 +90,44 @@ watch(
         </div>
         <div class="flex flex-col gap-2 mb-4">
             <label for="powerRating" class="font-semibold">Power Rating (Watts)</label>
-            <InputText v-model="state.powerRating" :invalid="v$.powerRating.$error" id="powerRating" class="flex-auto" aria-autocomplete="off"></InputText>
+            <InputNumber 
+                v-model="state.powerRating" 
+                inputId="powerRating"
+                :invalid="v$.powerRating.$error" 
+                class="flex-auto" 
+                aria-autocomplete="off"
+                fluid
+            ></InputNumber>
             <Message v-if="v$.powerRating.$error" severity="error">
                 <span class="text-sm">{{ v$.powerRating.$errors[0]?.$message }}</span>
             </Message>
         </div>
         <div class="flex flex-col gap-2 mb-4">
             <label for="usageHours" class="font-semibold">Usage Hours</label>
-            <InputText v-model="state.usageHours" :invalid="v$.usageHours.$error" id="usageHours" class="flex-auto" aria-autocomplete="off"></InputText>
+            <InputNumber 
+                v-model="state.usageHours" 
+                inputId="usageHours"
+                :minFractionDigits="1" :maxFractionDigits="2"
+                :invalid="v$.usageHours.$error" 
+                class="flex-auto" 
+                aria-autocomplete="off"
+                fluid
+            ></InputNumber>
             <Message v-if="v$.usageHours.$error" severity="error">
                 <span class="text-sm">{{ v$.usageHours.$errors[0]?.$message }}</span>
             </Message>
         </div>
         <div class="flex flex-col gap-2 mb-4">
             <label for="units" class="font-semibold">Units</label>
-            <InputText v-model="state.units" :invalid="v$.units.$error" id="units" class="flex-auto" aria-autocomplete="off"></InputText>
+            <InputNumber 
+                v-model="state.units" 
+                inputId="units"
+                :min="0" :max="100"
+                :invalid="v$.units.$error" 
+                class="flex-auto" 
+                aria-autocomplete="off"
+                fluid
+            ></InputNumber>
             <Message v-if="v$.units.$error" severity="error">
                 <span class="text-sm">{{ v$.units.$errors[0]?.$message }}</span>
             </Message>

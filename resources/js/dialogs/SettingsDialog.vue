@@ -4,6 +4,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { required, numeric, helpers } from '@vuelidate/validators';
 import Dialog from 'primevue/dialog';
 import InputText from 'primevue/inputtext';
+import InputNumber from 'primevue/inputnumber';
 import Button from 'primevue/button';
 import Select from 'primevue/select';
 import Message from 'primevue/message';
@@ -125,7 +126,15 @@ watch(
         </div>
         <div class="flex flex-col gap-2 mb-4">
             <label for="energy_rate" class="font-semibold">Energy Rate</label>
-            <InputText v-model="state.energyRate" :invalid="v$.energyRate.$error" id="energy_rate" class="flex-auto" aria-autocomplete="off"></InputText>
+            <InputNumber 
+                v-model="state.energyRate" 
+                inputId="energy_rate"
+                :minFractionDigits="1" :maxFractionDigits="2"
+                :invalid="v$.energyRate.$error" 
+                class="flex-auto" 
+                aria-autocomplete="off"
+                fluid
+            ></InputNumber>
             <Message v-if="v$.energyRate.$error" severity="error">
                 <span class="text-sm">{{ v$.energyRate.$errors[0]?.$message }}</span>
             </Message>
