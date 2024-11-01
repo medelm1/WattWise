@@ -1,4 +1,4 @@
-# Energy Consumption Estimator
+# WattWise - Energy Consumption Estimator
 
 A web application to estimate the energy consumption in a household. The app allows users to list electrical devices, specify their power ratings and usage hours, and calculate the daily and monthly energy consumption.
 
@@ -33,8 +33,8 @@ A web application to estimate the energy consumption in a household. The app all
 ### 1. Clone the repository:
 
 ```bash
-git clone https://github.com/medelm1/energy-consumption-estimator
-cd energy-consumption-estimator
+git clone https://github.com/medelm1/WattWise
+cd WattWise
 ```
 ### 2. Install Backend Dependencies:
 
